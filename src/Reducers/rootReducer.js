@@ -20,25 +20,24 @@ export const initialState = {
 export const rootReducer = (state = initialState, action) => {
   switch(action.type){
     case ADD_FEATURE :
-      const newFeature = state.additionalFeatures.filter((feature) => {
-        if( feature.id === action.payload ) {
-          return feature;
-        }
-      });
-      return  { ...state, car: { ...state.car, features: [ ...state.car.features, newFeature ] } };
+      console.log("Before ADD: ", state);
+      const newFeature = state.additionalFeatures.filter(feature => feature.id === action.payload);
+      return  ({ ...state, car: { ...state.car, features: [ ...state.car.features, newFeature ] } });
     case REMOVE_FEATURE :
-      const allFeatures = state.additionalFeatures.filter((feature) => {
+      console.log("Before REMOVE: ", state);
+      const allFeatures = state.car.features.map((feature) => {
         if( feature.id !== action.payload ) {
           return feature;
         }
       });
-      return { ...state, car: { ...state.car, features: allFeatures } };
+      return ({ ...state, car: { ...state.car, features: allFeatures } });
     case FIND_PRICE_TOTAL :
+      console.log("Before FINDTOTAL: ", state);
       let total = 0;
       state.car.features.forEach((feature) => {
         total = total + feature.price;
       })
-      return { ...state, additionalPrice: total }
+      return ({ ...state, additionalPrice: total });
     default :
       return state;
   }
